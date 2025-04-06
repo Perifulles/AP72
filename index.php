@@ -31,7 +31,19 @@ require_once "autoloader.php";
 
 
         echo "<h1><U>Ejercicio 5</U></h1>";
+        $Model->showOrder(5030);
+        echo "<br>";
 
+        echo "<h1><U>Ejercicio 6</U></h1>";
+        $Model->showOrderLines(604);
+        echo "<br>";
+
+        echo "<h1><U>Ejercicio 7</U></h1>";
+        
+        echo "<br>";
+
+        echo "<h1><U>Ejercicio 8</U></h1>";
+        
         echo "<br>";
 
         ?>

@@ -100,4 +100,89 @@ class Model extends Conexion
         }
         echo '</table>';        
     }
+
+
+//EJ5
+
+    public function getOrder($total){
+        $query = 'Select PEDIDO_NUM, CLIENTE_COD, TOTAL from PEDIDO where TOTAL >' . $total;
+        $stmt = $this->getConn()->query($query);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function showOrder($total){
+        $result = $this->getOrder($total);
+
+
+        echo '<table class="table table-striped">';
+        echo '<thead><tr><th>PEDIDO_NUM</th><th>CLIENTE_COD</th><th>TOTAL</th></tr></thead>';
+        foreach ($result as $row){
+            echo '<td>';
+            echo $row['PEDIDO_NUM'];
+            echo '<td>';
+            echo $row['CLIENTE_COD'];
+            echo '<td>';
+            echo $row['TOTAL'];
+            echo '<tr>';
+        }
+        echo '</table>';    
+    
+
+    }      
+    
+
+
+//EJ6
+
+    public function getOrderLines($pedido){
+        $query = 'Select PEDIDO_NUM, DETALLE_NUM, IMPORTE from DETALLE where PEDIDO_NUM =' . $pedido;
+        $stmt = $this->getConn()->query($query);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getOrderLinesHigh($pedido){
+        $max = 0;
+        $query = 'Select PEDIDO_NUM, DETALLE_NUM, IMPORTE from DETALLE where PEDIDO_NUM =' . $pedido;
+        $stmt = $this->getConn()->query($query);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row){
+            if ($max < $row['IMPORTE']){
+                $max = $row['IMPORTE'];
+            }
+        }
+        return $max;
+    }
+
+    public function showOrderLines($pedido){
+        $result = $this->getOrderLines($pedido);
+        $max = $this->getOrderLinesHigh($pedido);
+
+
+        echo '<table class="table table-striped">';
+        echo '<thead><tr><th>PEDIDO_NUM</th><th>DETALLE_NUM</th><th>IMPORTE</th></tr></thead>';
+        foreach ($result as $row){
+            echo '<td>';
+            echo $row['PEDIDO_NUM'];
+            echo '<td>';
+            echo $row['DETALLE_NUM'];
+            echo '<td>';
+            if ($row['IMPORTE'] == $max){
+                echo $row['IMPORTE'] . ' <img src="star-256.png" alt="JAKPOOO" width="20px">';
+            }else{
+                echo $row['IMPORTE'];}
+            echo '<tr>';
+        }
+        echo '</table>';    
+    }     
+
+
+
+
+//EJ7
+
+
+
+//EJ8
 }
